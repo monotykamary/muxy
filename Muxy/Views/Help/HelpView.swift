@@ -233,7 +233,7 @@ private struct HelpFeaturesView: View {
         Feature(
             title: "Layouts",
             summary: "Declarative .muxy/layouts/*.yaml workspaces and one‑time .muxy/startup.yaml.",
-            docPath: "docs/features/layouts.md"
+            docPath: "docs/layouts/overview.md"
         ),
         Feature(
             title: "Notifications",
@@ -253,7 +253,7 @@ private struct HelpFeaturesView: View {
         Feature(
             title: "Remote Server",
             summary: "WebSocket API for mobile companion clients with trust‑on‑first‑use pairing.",
-            docPath: "docs/features/remote-server.md"
+            docPath: "docs/remote-server/overview.md"
         ),
     ]
 

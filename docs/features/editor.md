@@ -49,7 +49,7 @@ Zoom: `⌘=`, `⌘-`, `⌘0`.
 
 ## Line wrapping
 
-Opt-in line wrapping is available in the editor toolbar. The editor uses a virtualized HeightMap so wrapped long files stay smooth at large sizes — see [Editor Geometry](../developer/architecture/editor-geometry.md) for the internals.
+Opt-in line wrapping is available in the editor toolbar. The editor uses a virtualized HeightMap so wrapped long files stay smooth at large sizes — see [Editor Geometry](../architecture/editor-geometry.md) for the internals.
 
 ## External editor
 

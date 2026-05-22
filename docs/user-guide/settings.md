@@ -72,7 +72,7 @@ See [Notifications](../features/notifications.md).
 - **Pair Mobile Device** — shows the pairing QR code.
 - **Approved devices** — list of paired clients with revoke buttons.
 
-See [Remote Server](../features/remote-server/README.md).
+See [Remote Server](../remote-server/overview.md).
 
 ## AI Assistant
 

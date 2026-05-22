@@ -68,4 +68,4 @@ Mouse side buttons (3 / 4) and three-finger horizontal trackpad swipes navigate 
 
 ## Persistence
 
-The tab and split tree per worktree is in-memory only. To recreate a layout, use [Layouts](layouts/README.md).
+The tab and split tree per worktree is in-memory only. To recreate a layout, use [Layouts](../layouts/overview.md).

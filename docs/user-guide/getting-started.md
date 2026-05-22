@@ -63,5 +63,5 @@ Muxy renders terminals through libghostty. Edit `~/.config/ghostty/config` from 
 ## Next steps
 
 - [Keyboard Shortcuts](keyboard-shortcuts.md)
-- [Layouts](../features/layouts/README.md) — reproducible per-project workspaces
+- [Layouts](../layouts/overview.md) — reproducible per-project workspaces
 - [Settings](settings.md) — every preference explained
