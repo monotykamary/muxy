@@ -16,17 +16,27 @@ struct PiProvider: AIProviderIntegration, AIUsageProvider {
     private let homeDirectory: String
     private let pathEnvironment: String
     private let resourceURL: @Sendable (String, String) -> URL?
+    private let sessionDirectory: String
 
     init(
         homeDirectory: String = NSHomeDirectory(),
         pathEnvironment: String = ProcessInfo.processInfo.environment["PATH"] ?? "",
         resourceURL: @escaping @Sendable (String, String) -> URL? = { name, ext in
             Bundle.appResources.url(forResource: name, withExtension: ext)
-        }
+        },
+        sessionDirectory: String? = nil
     ) {
         self.homeDirectory = homeDirectory
         self.pathEnvironment = pathEnvironment
         self.resourceURL = resourceURL
+        self.sessionDirectory = sessionDirectory ?? {
+            let envDir = ProcessInfo.processInfo.environment["PI_CODING_AGENT_DIR"]?
+                .trimmingCharacters(in: .whitespacesAndNewlines)
+            if let envDir, !envDir.isEmpty {
+                return envDir + "/sessions"
+            }
+            return homeDirectory + "/.pi/agent/sessions"
+        }()
     }
 
     private var extensionsDir: String { homeDirectory + "/.pi/agent/extensions" }
@@ -133,6 +143,23 @@ struct PiProvider: AIProviderIntegration, AIUsageProvider {
             [.posixPermissions: FilePermissions.privateFile],
             ofItemAtPath: settingsPath
         )
+    }
+
+    func fetchUsageSnapshot() async -> AIProviderUsageSnapshot {
+        let fm = FileManager.default
+
+        guard fm.fileExists(atPath: sessionDirectory) else {
+            return snapshot(state: .unavailable(message: "Open Pi to see usage"))
+        }
+
+        let usage = PiUsageParser.parseDailyUsage(from: sessionDirectory)
+        let rows = PiUsageParser.buildMetricRows(from: usage)
+
+        guard !rows.isEmpty else {
+            return snapshot(state: .unavailable(message: "No usage today"))
+        }
+
+        return snapshot(state: .available, rows: rows)
     }
 }
 

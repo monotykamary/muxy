@@ -158,6 +158,62 @@ struct PiProviderTests {
         #expect(fixture.provider(pathEnvironment: binURL.path).isToolInstalled())
     }
 
+    @Test("fetchUsageSnapshot returns unavailable when session directory does not exist")
+    func fetchUsageSnapshotNoDirectory() async {
+        let provider = PiProvider(
+            homeDirectory: "/nonexistent-home-\(UUID().uuidString)",
+            pathEnvironment: "",
+            resourceURL: { _, _ in nil },
+            sessionDirectory: "/nonexistent-sessions-\(UUID().uuidString)"
+        )
+
+        let snapshot = await provider.fetchUsageSnapshot()
+        #expect(snapshot.state == .unavailable(message: "Open Pi to see usage"))
+    }
+
+    @Test("fetchUsageSnapshot returns unavailable when no usage today")
+    func fetchUsageSnapshotNoUsage() async throws {
+        let fixture = try Fixture()
+        defer { fixture.cleanUp() }
+
+        let sessionsDir = fixture.homeURL.appendingPathComponent(".pi/agent/sessions")
+        try FileManager.default.createDirectory(at: sessionsDir, withIntermediateDirectories: true)
+
+        let provider = fixture.provider()
+        let snapshot = await provider.fetchUsageSnapshot()
+        #expect(snapshot.state == .unavailable(message: "No usage today"))
+    }
+
+    @Test("fetchUsageSnapshot returns available with usage rows")
+    func fetchUsageSnapshotWithUsage() async throws {
+        let fixture = try Fixture()
+        defer { fixture.cleanUp() }
+
+        let sessionsDir = fixture.homeURL.appendingPathComponent(".pi/agent/sessions")
+        let projectDir = sessionsDir.appendingPathComponent("project", isDirectory: true)
+        try FileManager.default.createDirectory(at: projectDir, withIntermediateDirectories: true)
+
+        let sessionJSONL = """
+        {"type":"session","version":3,"id":"abc","timestamp":"2026-01-01T00:00:00Z","cwd":"/project"}
+        {"type":"message","id":"m1","parentId":null,"timestamp":"2026-01-01T00:00:01Z","message":{"role":"assistant","content":[{"type":"text","text":"hi"}],"usage":{"input":100,"output":200,"cacheRead":0,"cacheWrite":0,"totalTokens":300,"cost":{"input":0.001,"output":0.003,"cacheRead":0,"cacheWrite":0,"total":0.004}},"stopReason":"stop"}}
+        """
+        try Data(sessionJSONL.utf8).write(
+            to: projectDir.appendingPathComponent("session.jsonl"),
+            options: .atomic
+        )
+
+        let provider = fixture.provider()
+        let snapshot = await provider.fetchUsageSnapshot()
+
+        guard case .available = snapshot.state else {
+            Issue.record("Expected available state, got \(snapshot.state)")
+            return
+        }
+        #expect(snapshot.rows.count == 2)
+        #expect(snapshot.rows[0].label == "Daily cost")
+        #expect(snapshot.rows[1].label == "Daily tokens")
+    }
+
     @Test("install throws when resource is missing")
     func installThrowsWhenResourceMissing() throws {
         let fixture = try Fixture()
@@ -166,7 +222,8 @@ struct PiProviderTests {
         let provider = PiProvider(
             homeDirectory: fixture.homeURL.path,
             pathEnvironment: "",
-            resourceURL: { _, _ in nil }
+            resourceURL: { _, _ in nil },
+            sessionDirectory: fixture.homeURL.appendingPathComponent(".pi/agent/sessions").path
         )
 
         #expect(throws: PiProviderError.bundleResourceNotFound) {
@@ -203,7 +260,8 @@ struct PiProviderTests {
             PiProvider(
                 homeDirectory: homeURL.path,
                 pathEnvironment: pathEnvironment,
-                resourceURL: { _, _ in sourceURL }
+                resourceURL: { _, _ in sourceURL },
+                sessionDirectory: homeURL.appendingPathComponent(".pi/agent/sessions").path
             )
         }
 
