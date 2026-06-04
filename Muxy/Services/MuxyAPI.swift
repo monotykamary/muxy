@@ -154,6 +154,7 @@ enum MuxyAPI {
 
         private static let extensionVerbs: Set<String> = Set([
             "exec",
+            "http.fetch",
             "dialog.confirm",
             "dialog.alert",
             "modal.open",
