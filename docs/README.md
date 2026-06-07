@@ -53,13 +53,19 @@ flowchart TB
 
 > **DEV — under active development.** APIs and manifest format may change.
 
+**Start here**
+
 | Page | What's in it |
 | --- | --- |
+| [Get started](extensions/get-started.md) | Build and run your first extension in ~2 minutes |
 | [Extensions Overview](extensions/overview.md) | Architecture, lifecycle, security model |
 | [Manifest](extensions/manifest.md) | `package.json` `muxy` fields, subprocess environment |
 | [Permissions](extensions/permissions.md) | What each permission grants |
-| [Events](extensions/events.md) | Workspace events plus extension-local emit/subscribe |
-| [Palette Commands](extensions/palette-commands.md) | Register palette commands, react to triggers |
+
+**Build UI**
+
+| Page | What's in it |
+| --- | --- |
 | [Extension Tabs](extensions/tabs.md) | Render a full tab as a webview, `window.muxy` bridge |
 | [Extension Panels](extensions/panels.md) | Docked or floating webview beside the workspace |
 | [Extension Popovers](extensions/popovers.md) | Transient webview anchored to a topbar or status bar item |
@@ -67,13 +73,25 @@ flowchart TB
 | [Status Bar Items](extensions/statusbar.md) | Add an icon (with text) to the footer status bar |
 | [Extension Modal](extensions/modal.md) | Native searchable picker overlay |
 | [Extension Dialogs](extensions/dialogs.md) | Native confirm and alert sheets on the main window |
-| [Settings](extensions/settings.md) | Typed settings with their own Settings sidebar row |
+| [Palette Commands](extensions/palette-commands.md) | Register palette commands, react to triggers |
 | [Inline Scripts (`runScript` Commands)](extensions/scripts.md) | `runScript` commands in an in-process JS context |
+
+**Work with the workspace**
+
+| Page | What's in it |
+| --- | --- |
+| [Events](extensions/events.md) | Workspace events plus extension-local emit/subscribe |
 | [Git](extensions/git.md) | `muxy.git` verbs against the active worktree |
 | [Files](extensions/files.md) | `muxy.files` reads/writes relative to the worktree root |
+| [Settings](extensions/settings.md) | Typed settings with their own Settings sidebar row |
 | [Remote Methods](extensions/remote-methods.md) | Serve named API methods to the Muxy mobile app |
 | [Extension Logs](extensions/logs.md) | Per-extension log files and where they live |
-| [Contributing an extension](extensions/contributing.md) | Create, validate, and publish an extension |
+
+**Publish**
+
+| Page | What's in it |
+| --- | --- |
+| [Contributing an extension](extensions/contributing.md) | Fork, validate, and publish an extension |
 
 ## Remote Server
 

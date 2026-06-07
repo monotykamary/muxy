@@ -2,6 +2,8 @@
 
 > **Status:** under active development (**DEV** in Settings). Manifest format, permissions, and event payloads may change without notice.
 
+> **New here?** Start with [Get started](get-started.md) to build and run an extension first; this page explains how they work under the hood.
+
 Extensions are npm + [Vite](https://vitejs.dev) projects that Muxy loads on launch. Authors build them with any framework; `npm run build` emits a `dist/` directory, and that build output is what is published and installed. Extensions react to workspace events, coordinate webviews with background scripts, register palette commands, add UI (tabs, panels, popovers, topbar/status-bar items), and — with permission — drive the same verbs the `muxy` CLI exposes.
 
 ## Architecture

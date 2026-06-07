@@ -2,6 +2,8 @@
 
 > **Status:** under active development. Marked **DEV** in **Settings → Extensions**. The manifest format, permission set, and wire format may change without notice.
 
+> **New here?** Start with [Get started](get-started.md) — build and run your first extension in about two minutes.
+
 User-installed directories that Muxy loads and runs. Each extension is an npm + [Vite](https://vitejs.dev) project: authors use any framework (React, Vue, Svelte, vanilla), `npm run build` bundles it into a `dist/` directory, and that build output is what gets published and installed. Extensions can react to workspace events, coordinate webviews with a background script, register palette commands, post notifications, and (with permission) drive the same verbs the `muxy` CLI exposes. Most need no background script; Muxy keeps a long-lived background process only for extensions that declare one to receive pushed events, handle extension-local messages, or run background shell commands.
 
 ## Architecture
@@ -65,29 +67,47 @@ flowchart TD
 
 ## Pages
 
+### Start here
+
 | Page | What's in it |
 | --- | --- |
+| [Get started](get-started.md) | Build and run your first extension in ~2 minutes |
 | [Overview](overview.md) | Architecture, lifecycle, security model |
 | [Manifest](manifest.md) | `package.json` `muxy` fields, validation, background script environment |
 | [Permissions](permissions.md) | What each permission grants, what isn't gated |
-| [Events](events.md) | Identify/subscribe handshake, event list, wire format |
-| [Lifecycle](lifecycle.md) | Intercept and prevent tab/panel/popover closes (e.g. unsaved changes) |
-| [Palette Commands](palette-commands.md) | Register commands and react to triggers |
+
+### Build UI
+
+| Page | What's in it |
+| --- | --- |
 | [Tabs](tabs.md) | Register webview tab types and the injected `window.muxy` JS API |
 | [Panels](panels.md) | Register dockable/floating webview panels and the placement rules |
+| [Popovers](popovers.md) | Anchor a transient webview popover to a topbar/status bar item |
+| [Topbar](topbar.md) | Attach icons to the tab strip that trigger a command |
+| [Status Bar](statusbar.md) | Attach icons to the footer status bar; update text live |
+| [Modal](modal.md) | Present a native searchable picker; resolves with the selected item |
+| [Dialogs](dialogs.md) | Present native confirm/alert sheets on the main window |
+| [Palette Commands](palette-commands.md) | Register commands and react to triggers |
+| [Scripts](scripts.md) | Run JS files as palette commands in a per-extension JSContext |
+| [Lifecycle](lifecycle.md) | Intercept and prevent tab/panel/popover closes (e.g. unsaved changes) |
+
+### Work with the workspace
+
+| Page | What's in it |
+| --- | --- |
+| [Events](events.md) | Identify/subscribe handshake, event list, wire format |
 | [Git](git.md) | Repository access: status, diff, log, branches, PRs, worktrees |
 | [Files](files.md) | Workspace filesystem access: list, read, stat, write, mkdir, rename, move, delete |
 | [HTTP](http.md) | Call external HTTP(S) APIs from native code without CORS; host-keyed consent |
-| [Popovers](popovers.md) | Anchor a transient webview popover to a topbar/status bar item |
-| [Dialogs](dialogs.md) | Present native confirm/alert sheets on the main window |
-| [Modal](modal.md) | Present a native searchable picker; resolves with the selected item |
-| [Topbar](topbar.md) | Attach icons to the tab strip that trigger a command |
-| [Status Bar](statusbar.md) | Attach icons to the footer status bar; update text live |
 | [Settings](settings.md) | Declare typed settings and read/write them at runtime |
 | [Remote Methods](remote-methods.md) | Serve named API methods to the mobile app via the remote server |
-| [Scripts](scripts.md) | Run JS files as palette commands in a per-extension JSContext |
 | [Logs](logs.md) | Where logs live on disk, console.* bridge, size cap and trim policy |
-| [Contributing](contributing.md) | Create, validate, and publish an extension |
+
+### Publish
+
+| Page | What's in it |
+| --- | --- |
+| [Contributing](contributing.md) | Fork, validate, and publish an extension |
 
 ## Quick links
 
